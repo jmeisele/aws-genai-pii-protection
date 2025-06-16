@@ -4,13 +4,13 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "davinci"
     workspaces {
-      name = "terrafrom-aws-starter"
+      name = "aws-genai-pii-protection"
     }
   }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
   }
 }
