@@ -3,6 +3,11 @@ resource "aws_cloudwatch_log_group" "macie_scan" {
   retention_in_days = 7
 }
 
+resource "aws_cloudwatch_log_group" "step_function_id" {
+  name              = "/aws/lambda/step_function_stdout"
+  retention_in_days = 7
+}
+
 resource "aws_cloudwatch_metric_alarm" "macie_scan" {
   alarm_name          = "macie_scan-lambda-error"
   comparison_operator = "GreaterThanOrEqualToThreshold"

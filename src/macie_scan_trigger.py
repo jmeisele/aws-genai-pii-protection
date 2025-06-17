@@ -33,6 +33,22 @@ def lambda_handler(event: dict, context: dict) -> dict:
             Bucket=scan_bucket,
             Key=s3_object_key
         )
+        s3_client.delete_object(
+            Bucket=s3_bucket,
+            Key=s3_object_key
+        )
+        s3_client.put_object_tagging(
+            Bucket = scan_bucket,
+            Key = s3_object_key,
+            Tagging = {
+                'TagSet': [
+                    {
+                        'Key': 'WorkflowId',
+                        'Value': event["Id"]
+                    }
+                ]
+            }
+        )
     except ClientError as e:
         logger.error(e)
         return {
