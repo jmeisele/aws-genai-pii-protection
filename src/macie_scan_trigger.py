@@ -67,7 +67,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
                         "and": [
                             {
                                 "simpleScopeTerm": {
-                                    "comparator": "EQ",
+                                    "comparator": "STARTS_WITH",
                                     "key": "OBJECT_KEY",
                                     "values": [
                                         s3_object_key
