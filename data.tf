@@ -69,6 +69,17 @@ data "aws_iam_policy_document" "lambda_macie" {
   }
 }
 
+data "aws_iam_policy_document" "step" {
+  statement {
+    actions = [
+      "lambda:InvokeFunction",
+    ]
+    resources = [
+      aws_lambda_function.step_function_id.arn
+    ]
+  }
+}
+
 data "archive_file" "macie_scan" {
   type        = "zip"
   source_file = "${path.module}/src/macie_scan_trigger.py"
