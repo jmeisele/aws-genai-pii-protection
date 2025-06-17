@@ -18,11 +18,11 @@ resource "aws_s3_bucket" "clean" {
   force_destroy = true
 }
 
-# resource "aws_s3_object" "txt_file" {
-#   bucket = aws_s3_bucket.raw.bucket
-#   key    = "foo.txt"
-#   source = "./foo.txt"
-# }
+resource "aws_s3_object" "txt_file" {
+  bucket = aws_s3_bucket.raw.bucket
+  key    = "foo.txt"
+  source = "./foo.txt"
+}
 
 resource "aws_s3_bucket_notification" "raw_bucket_notification" {
   bucket = aws_s3_bucket.raw.id
