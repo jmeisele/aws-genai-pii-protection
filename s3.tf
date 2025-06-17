@@ -39,21 +39,31 @@ resource "aws_s3_bucket_notification" "raw_bucket_notification" {
   eventbridge = true
 }
 
-# resource "aws_cloudwatch_event_rule" "console" {
-#   name        = "capture-objects-created"
-#   description = "Capture each AWS Console Sign In"
+resource "aws_cloudwatch_event_rule" "raw_bucket_objects" {
+  name        = "capture-objects-created"
+  description = "Capture each AWS Console Sign In"
+  # {
+  #   "source": ["aws.s3"],
+  #   "detail-type": ["Object Created"],
+  #   "detail": {
+  #     "bucket": {
+  #       "name": ["raw20250617121549564000000004 "]
+  #     }
+  #   }
+  # }
 
-#   event_pattern = jsonencode({
-#     detail = {
-#       bucket = {
-#         "name"
-#       }
-#     }
-#     detail-type = [
-#       "Object Created"
-#     ]
-#   })
-# }
+  event_pattern = jsonencode({
+    source = ["aws.s3"]
+    detail = {
+      bucket = {
+        name = [aws_s3_bucket.raw.bucket]
+      }
+    }
+    detail-type = [
+      "Object Created"
+    ]
+  })
+}
 
 # resource "aws_cloudwatch_event_target" "sns" {
 #   rule      = aws_cloudwatch_event_rule.console.name
