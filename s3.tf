@@ -24,12 +24,39 @@ resource "aws_s3_bucket" "clean" {
 #   source = "./foo.txt"
 # }
 
-resource "aws_s3_bucket_notification" "raw_bucket_notification" {
-  bucket = aws_s3_bucket.raw.id
+# resource "aws_s3_bucket_notification" "raw_bucket_notification" {
+#   bucket = aws_s3_bucket.raw.id
 
-  lambda_function {
-    lambda_function_arn = aws_lambda_function.macie_scan.arn
-    events              = ["s3:ObjectCreated:*"]
-  }
-  depends_on = [aws_lambda_permission.allow_raw_bucket]
+#   lambda_function {
+#     lambda_function_arn = aws_lambda_function.macie_scan.arn
+#     events              = ["s3:ObjectCreated:*"]
+#   }
+#   depends_on = [aws_lambda_permission.allow_raw_bucket]
+# }
+
+resource "aws_s3_bucket_notification" "raw_bucket_notification" {
+  bucket      = aws_s3_bucket.raw.id
+  eventbridge = true
 }
+
+# resource "aws_cloudwatch_event_rule" "console" {
+#   name        = "capture-objects-created"
+#   description = "Capture each AWS Console Sign In"
+
+#   event_pattern = jsonencode({
+#     detail = {
+#       bucket = {
+#         "name"
+#       }
+#     }
+#     detail-type = [
+#       "Object Created"
+#     ]
+#   })
+# }
+
+# resource "aws_cloudwatch_event_target" "sns" {
+#   rule      = aws_cloudwatch_event_rule.console.name
+#   target_id = "SendToSNS"
+#   arn       = aws_sns_topic.aws_logins.arn
+# }
