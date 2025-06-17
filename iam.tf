@@ -29,3 +29,19 @@ resource "aws_iam_role_policy_attachment" "step" {
   role       = aws_iam_role.step.name
   policy_arn = aws_iam_policy.step.arn
 }
+
+resource "aws_iam_role" "events" {
+  name               = "events"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_events.json
+}
+
+resource "aws_iam_policy" "step_function_execute" {
+  name        = "step_functions_execute_policy"
+  description = "Start step functions policy"
+  policy      = data.aws_iam_policy_document.step_function_execute.json
+}
+
+resource "aws_iam_role_policy_attachment" "step_function_execute" {
+  role       = aws_iam_role.events.name
+  policy_arn = aws_iam_policy.step_function_execute.arn
+}

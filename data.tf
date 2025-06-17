@@ -23,6 +23,17 @@ data "aws_iam_policy_document" "assume_lambda" {
   }
 }
 
+data "aws_iam_policy_document" "assume_role_events" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
 data "aws_iam_policy_document" "lambda_macie" {
   statement {
     actions = [
@@ -76,6 +87,17 @@ data "aws_iam_policy_document" "step" {
     ]
     resources = [
       aws_lambda_function.step_function_id.arn
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "step_function_execute" {
+  statement {
+    actions = [
+      "states:StartExecution",
+    ]
+    resources = [
+      aws_sfn_state_machine.sfn_state_machine.arn
     ]
   }
 }
