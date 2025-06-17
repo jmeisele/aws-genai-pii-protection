@@ -41,7 +41,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
             "body": json.dumps(e),
         }
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
@@ -67,7 +67,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
                         "and": [
                             {
                                 "simpleScopeTerm": {
-                                    "compcomparator": "EQ",
+                                    "comparator": "EQ",
                                     "key": "OBJECT_KEY",
                                     "values": [
                                         s3_object_key
@@ -81,7 +81,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
         )
         logger.info(f"Response: {response}")
     except Exception as e:
-        logger.error(e)
+        logger.exception(e)
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
