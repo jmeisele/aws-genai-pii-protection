@@ -1,12 +1,12 @@
 {
-    "StartAt": "lambda",
+    "StartAt": "macie_scan",
     "States": {
-        "lambda": {
+        "macie_scan": {
             "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
             "Output": "{% $states.result.Payload %}",
             "Arguments": {
-                "FunctionName": "arn:aws:lambda:us-east-1:288195736164:function:step_function_stdout",
+                "FunctionName": "arn:aws:lambda:us-east-1:288195736164:function:macie_scan",
                 "Payload": "{% $states.input %}"
             },
             "Retry": [
