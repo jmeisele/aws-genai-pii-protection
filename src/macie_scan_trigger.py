@@ -89,5 +89,5 @@ def lambda_handler(event: dict, context: dict) -> dict:
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps("Success!"),
+        "body": json.dumps(response['jobId']),
     }
