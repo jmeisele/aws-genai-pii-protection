@@ -74,3 +74,9 @@ data "archive_file" "macie_scan" {
   source_file = "${path.module}/src/macie_scan_trigger.py"
   output_path = "macie_scan.zip"
 }
+
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file = "${path.module}/src/lambda.py"
+  output_path = "lambda.zip"
+}

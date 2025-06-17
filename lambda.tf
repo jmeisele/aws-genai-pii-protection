@@ -1,3 +1,20 @@
+resource "aws_lambda_function" "step_function_id" {
+  function_name    = "step_function_stdout"
+  description      = "Log output from step function invoke"
+  filename         = data.archive_file.lambda.output_path
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+  role             = aws_iam_role.lambda_macie.arn
+  runtime          = "python3.12"
+  handler          = "lambda.lambda_handler"
+  timeout          = 600
+  environment {
+    variables = {}
+  }
+  logging_config {
+    log_format = "JSON"
+  }
+}
+
 resource "aws_lambda_function" "macie_scan" {
   function_name    = "macie_scan"
   description      = "Copies file over to scan bucket and initiates Macie scan"

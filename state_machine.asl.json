@@ -12,9 +12,9 @@
                     "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": "{% $states.context.Execution.Id %}"
                 }
             },
-            "Next": "trigger_macie_scan"
+            "Next": "lambda"
         },
-        "trigger_macie_scan": {
+        "lambda": {
             "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
             "Output": "{% $states.result.Payload %}",
