@@ -1,8 +1,7 @@
 {
-    "Comment": "A description of my state machine",
-    "StartAt": "Step Functions StartExecution",
+    "StartAt": "GenAI PII Ingest Scanner",
     "States": {
-        "Step Functions StartExecution": {
+        "GenAI PII Ingest Scanner": {
             "Type": "Task",
             "Resource": "arn:aws:states:::states:startExecution.sync:2",
             "Arguments": {
@@ -19,7 +18,7 @@
             "Resource": "arn:aws:states:::lambda:invoke",
             "Output": "{% $states.result.Payload %}",
             "Arguments": {
-                "FunctionName": "",
+                "FunctionName": "arn:aws:lambda:us-east-1:288195736164:function:step_function_stdout",
                 "Payload": "{% $states.input %}"
             },
             "Retry": [
