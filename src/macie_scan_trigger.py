@@ -12,6 +12,7 @@ macie_client = boto3.client('macie2')
 s3_client = boto3.client('s3')
 raw_bucket = os.environ["RAW_BUCKET"]
 scan_bucket = os.environ["SCAN_BUCKET"]
+aws_account = os.environ["AWS_ACCOUNT"]
 
 def lambda_handler(event: dict, context: dict) -> dict:
     logger.info(f"Event: {event}")
@@ -57,7 +58,8 @@ def lambda_handler(event: dict, context: dict) -> dict:
             s3JobDefinition={
                 "bucketDefinitions": [
                     {
-                        "buckets": [scan_bucket]
+                        "buckets": [scan_bucket],
+                        "accountId": aws_account
                     }
                 ],
                 "scoping": {

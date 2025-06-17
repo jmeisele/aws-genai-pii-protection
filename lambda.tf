@@ -14,6 +14,7 @@ resource "aws_lambda_function" "macie_scan" {
     variables = {
       RAW_BUCKET  = aws_s3_bucket.raw.bucket
       SCAN_BUCKET = aws_s3_bucket.scan.bucket
+      AWS_ACCOUNT = var.account_id
     }
   }
   logging_config {
