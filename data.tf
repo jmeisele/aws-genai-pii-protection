@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "lambda_macie" {
     ]
   }
   statement {
-    actions   = ["macie:*"]
+    actions   = ["macie2:*"]
     resources = ["*"]
   }
   statement {
