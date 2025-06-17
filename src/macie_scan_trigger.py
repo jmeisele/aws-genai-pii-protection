@@ -18,23 +18,23 @@ def lambda_handler(event: dict, context: dict) -> dict:
     logger.info(f"Event: {event}")
     logger.info(f"Context: {context}")
 
-    s3_bucket = event["Records"][0]["s3"]["bucket"]["name"]
-    s3_object_key = event["Records"][0]["s3"]["object"]["key"]
+    raw_bucket = event["detail"]["bucket"]["name"]
+    s3_object_key = event["detail"]["object"]["key"]
     
-    logger.info(f"s3_bucket: {s3_bucket}")
+    logger.info(f"s3_bucket: {raw_bucket}")
     logger.info(f"s3_object_key: {s3_object_key}")
     
     try:
         s3_client.copy_object(
             CopySource={
-                "Bucket": s3_bucket,
+                "Bucket": raw_bucket,
                 "Key": s3_object_key
             },
             Bucket=scan_bucket,
             Key=s3_object_key
         )
         s3_client.delete_object(
-            Bucket=s3_bucket,
+            Bucket=raw_bucket,
             Key=s3_object_key
         )
         s3_client.put_object_tagging(
@@ -82,12 +82,16 @@ def lambda_handler(event: dict, context: dict) -> dict:
                     "includes": {
                         "and": [
                             {
-                                "simpleScopeTerm": {
-                                    "comparator": "STARTS_WITH",
-                                    "key": "OBJECT_KEY",
-                                    "values": [
-                                        s3_object_key
-                                    ]
+                                "tagScopeTerm": {
+                                    "comparator": "EQ",
+                                    "key": "TAG",
+                                    "tagValues": [
+                                        {
+                                            "key": "WorkflowId",
+                                            "value": event["Id"]
+                                        }
+                                    ],
+                                    'target': 'S3_OBJECT'
                                 }
                             }
                         ]
