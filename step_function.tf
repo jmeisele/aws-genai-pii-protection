@@ -11,5 +11,5 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
   #   }
   # )
 
-  definition = file("${path.module}/state_machine.json")
+  definition = file("${path.module}/state_machine.asl.json")
 }

@@ -1,18 +1,6 @@
 {
-    "StartAt": "GenAI PII Ingest Scanner",
+    "StartAt": "lambda",
     "States": {
-        "GenAI PII Ingest Scanner": {
-            "Type": "Task",
-            "Resource": "arn:aws:states:::states:startExecution.sync:2",
-            "Arguments": {
-                "StateMachineArn": "arn:aws:states:REGION:ACCOUNT_ID:stateMachine:STATE_MACHINE_NAME",
-                "Input": {
-                    "StatePayload": "Hello from Step Functions!",
-                    "AWS_STEP_FUNCTIONS_STARTED_BY_EXECUTION_ID": "{% $states.context.Execution.Id %}"
-                }
-            },
-            "Next": "lambda"
-        },
         "lambda": {
             "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
