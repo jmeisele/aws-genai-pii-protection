@@ -12,7 +12,7 @@ s3_client = boto3.client('s3')
 scan_bucket = os.environ["SCAN_BUCKET"]
 clean_bucket = os.environ["CLEAN_BUCKET"]
 
-def lambdas_handler(event: dict, context: dict) -> dict:
+def lambda_handler(event: dict, context: dict) -> dict:
     logger.info(f"event: {event}")
     logger.info(f"context: {context}")
     scan_bucket = event['scan_bucket']

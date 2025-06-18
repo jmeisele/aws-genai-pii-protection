@@ -88,7 +88,7 @@
             "Choices": [
                 {
                     "Next": "xfer_clean_files",
-                    "Condition": "{% $states.input.sensitive_data_detected = true %}"
+                    "Condition": "{% $states.input.sensitive_data_detected = false %}"
                 }
             ],
             "Default": "xfer_sensitive_files"
