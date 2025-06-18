@@ -13,23 +13,13 @@ def lambda_handler(event: dict,  context: dict) -> dict:
     logger.info(f"Context: {context}")
     job_id = event['Input']['jobId']['Payload']
 
-    if job_id == 'NoKeysFound':
-        return 'NoKeysFound'
-    
     try:
         response = macie_client.describe_classification_job(jobId=job_id)
     except Exception as e:
-        logger.error(e)
-        return {
-            "statusCode": 500,
-            "headers": {"Content-Type": "application/json"},
-            "body":
-             json.dumps(e),
-        }
-    
+        logger.exception(e)
+        raise
+
     return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(response['jobStatus']),
+        "job_status": response['jobStatus'],
     }
     

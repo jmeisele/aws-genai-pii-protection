@@ -101,7 +101,5 @@ def lambda_handler(event: dict, context: dict) -> dict:
         raise
     
     return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(response['jobId']),
+        "macie_job_id": response['jobId']
     }
