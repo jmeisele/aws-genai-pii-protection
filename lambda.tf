@@ -69,7 +69,47 @@ resource "aws_lambda_function" "macie_findings" {
   handler          = "macie_findings_count.lambda_handler"
   timeout          = 600
   depends_on = [
-    aws_cloudwatch_log_group.macie_scan
+    aws_cloudwatch_log_group.macie_findings
+  ]
+  environment {
+    variables = {}
+  }
+  logging_config {
+    log_format = "JSON"
+  }
+}
+
+resource "aws_lambda_function" "macie_xfer_clean" {
+  function_name    = "macie_xfer_clean"
+  description      = "Transfer clean files"
+  filename         = data.archive_file.macie_xfer_clean.output_path
+  source_code_hash = data.archive_file.macie_xfer_clean.output_base64sha256
+  role             = aws_iam_role.lambda_macie.arn
+  runtime          = "python3.12"
+  handler          = "transfer_clean_files.lambda_handler"
+  timeout          = 600
+  depends_on = [
+    aws_cloudwatch_log_group.macie_xfer_clean
+  ]
+  environment {
+    variables = {}
+  }
+  logging_config {
+    log_format = "JSON"
+  }
+}
+
+resource "aws_lambda_function" "macie_xfer_sensitive" {
+  function_name    = "macie_xfer_sensitive"
+  description      = "Transfer sensitive files"
+  filename         = data.archive_file.macie_xfer_sensitive.output_path
+  source_code_hash = data.archive_file.macie_xfer_sensitive.output_base64sha256
+  role             = aws_iam_role.lambda_macie.arn
+  runtime          = "python3.12"
+  handler          = "transfer_sensitive_files.lambda_handler"
+  timeout          = 600
+  depends_on = [
+    aws_cloudwatch_log_group.macie_xfer_sensitive
   ]
   environment {
     variables = {}

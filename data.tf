@@ -86,7 +86,12 @@ data "aws_iam_policy_document" "step" {
       "lambda:InvokeFunction",
     ]
     resources = [
-      aws_lambda_function.step_function_id.arn
+      aws_lambda_function.step_function_id.arn,
+      aws_lambda_function.macie_scan.arn,
+      aws_lambda_function.macie_status.arn,
+      aws_lambda_function.macie_findings.arn,
+      aws_lambda_function.macie_xfer_clean.arn,
+      aws_lambda_function.macie_xfer_sensitive.arn
     ]
   }
 }
@@ -118,6 +123,18 @@ data "archive_file" "macie_findings" {
   type        = "zip"
   source_file = "${path.module}/src/macie_findings_count.py"
   output_path = "macie_findings.zip"
+}
+
+data "archive_file" "macie_xfer_clean" {
+  type        = "zip"
+  source_file = "${path.module}/src/transfer_clean_files.py"
+  output_path = "macie_xfer_clean.zip"
+}
+
+data "archive_file" "macie_xfer_sensitive" {
+  type        = "zip"
+  source_file = "${path.module}/src/transfer_sensitive_files.py"
+  output_path = "macie_xfer_sensitive.zip"
 }
 
 data "archive_file" "lambda" {
