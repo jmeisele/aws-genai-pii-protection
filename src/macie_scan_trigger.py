@@ -44,7 +44,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
                 'TagSet': [
                     {
                         'Key': 'WorkflowId',
-                        'Value': event["Id"]
+                        'Value': event["id"]
                     }
                 ]
             }
@@ -58,11 +58,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
         }
     except Exception as e:
         logger.exception(e)
-        return {
-            "statusCode": 500,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps(e),
-        }
+        raise
     
     try:
         logger.info("Starting Macie Scan Job")
@@ -88,7 +84,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
                                     "tagValues": [
                                         {
                                             "key": "WorkflowId",
-                                            "value": event["Id"]
+                                            "value": event["id"]
                                         }
                                     ],
                                     'target': 'S3_OBJECT'
@@ -102,11 +98,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
         logger.info(f"Response: {response}")
     except Exception as e:
         logger.exception(e)
-        return {
-            "statusCode": 500,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps(f"Could not scan object: {e}"),
-        }
+        raise
     
     return {
         "statusCode": 200,
