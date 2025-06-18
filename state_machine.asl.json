@@ -53,11 +53,11 @@
             "Type": "Choice",
             "Choices": [
                 {
-                    "Condition": "{% $job_status = \"COMPLETE\" %}",
+                    "Condition": "{% $states.input.job_status = \"COMPLETE\" %}",
                     "Next": "macie_findings"
                 }
             ],
-            "Default": "Wait 60 Seconds"
+            "Default": "Wait 5 Minutes"
         },
         "macie_findings": {
             "Type": "Task",
@@ -83,9 +83,9 @@
             ],
             "End": true
         },
-        "Wait 60 Seconds": {
+        "Wait 5 Minutes": {
             "Type": "Wait",
-            "Seconds": 60,
+            "Seconds": 300,
             "Next": "macie_status"
         }
     },
