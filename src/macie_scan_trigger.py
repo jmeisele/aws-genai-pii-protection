@@ -66,7 +66,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
             description="File upload scan",
             initialRun=True,
             jobType="ONE_TIME",
-            name=f"Scan-{s3_object_key}",
+            name=f"scan-{s3_object_key}-{event['id']}",
             s3JobDefinition={
                 "bucketDefinitions": [
                     {
