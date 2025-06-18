@@ -3,6 +3,16 @@ resource "aws_cloudwatch_log_group" "macie_scan" {
   retention_in_days = 7
 }
 
+resource "aws_cloudwatch_log_group" "macie_status" {
+  name              = "/aws/lambda/macie_status"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "macie_findings" {
+  name              = "/aws/lambda/macie_findings"
+  retention_in_days = 7
+}
+
 resource "aws_cloudwatch_log_group" "step_function_id" {
   name              = "/aws/lambda/step_function_stdout"
   retention_in_days = 7
