@@ -13,6 +13,16 @@ resource "aws_cloudwatch_log_group" "macie_findings" {
   retention_in_days = 7
 }
 
+resource "aws_cloudwatch_log_group" "macie_xfer_clean" {
+  name              = "/aws/lambda/macie_xfer_clean"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "macie_xfer_sensitive" {
+  name              = "/aws/lambda/macie_xfer_sensitive"
+  retention_in_days = 7
+}
+
 resource "aws_cloudwatch_log_group" "step_function_id" {
   name              = "/aws/lambda/step_function_stdout"
   retention_in_days = 7
