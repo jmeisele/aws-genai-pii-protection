@@ -20,7 +20,7 @@ def lambda_handler(event: dict,  context: dict) -> dict:
         raise
 
     return {
-        "job_id": job_id,
+        "macie_job_id": job_id,
         "job_status": response['jobStatus'],
     }
     
