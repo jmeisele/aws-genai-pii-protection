@@ -39,6 +39,46 @@ resource "aws_lambda_function" "macie_scan" {
   }
 }
 
+resource "aws_lambda_function" "macie_status" {
+  function_name    = "macie_status"
+  description      = "Check status of Macie scan job"
+  filename         = data.archive_file.macie_status.output_path
+  source_code_hash = data.archive_file.macie_status.output_base64sha256
+  role             = aws_iam_role.lambda_macie.arn
+  runtime          = "python3.12"
+  handler          = "macie_status_check.lambda_handler"
+  timeout          = 600
+  depends_on = [
+    aws_cloudwatch_log_group.macie_scan
+  ]
+  environment {
+    variables = {}
+  }
+  logging_config {
+    log_format = "JSON"
+  }
+}
+
+resource "aws_lambda_function" "macie_findings" {
+  function_name    = "macie_findings"
+  description      = "Check for any findings from JobID"
+  filename         = data.archive_file.macie_findings.output_path
+  source_code_hash = data.archive_file.macie_findings.output_base64sha256
+  role             = aws_iam_role.lambda_macie.arn
+  runtime          = "python3.12"
+  handler          = "macie_findings_count.lambda_handler"
+  timeout          = 600
+  depends_on = [
+    aws_cloudwatch_log_group.macie_scan
+  ]
+  environment {
+    variables = {}
+  }
+  logging_config {
+    log_format = "JSON"
+  }
+}
+
 resource "aws_lambda_permission" "allow_raw_bucket" {
   statement_id  = "AllowExecutionFromRaw3Bucket"
   action        = "lambda:InvokeFunction"

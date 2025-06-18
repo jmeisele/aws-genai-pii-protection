@@ -108,6 +108,18 @@ data "archive_file" "macie_scan" {
   output_path = "macie_scan.zip"
 }
 
+data "archive_file" "macie_status" {
+  type        = "zip"
+  source_file = "${path.module}/src/macie_status_check.py"
+  output_path = "macie_status.zip"
+}
+
+data "archive_file" "macie_findings" {
+  type        = "zip"
+  source_file = "${path.module}/src/macie_findings_count.py"
+  output_path = "macie_findings.zip"
+}
+
 data "archive_file" "lambda" {
   type        = "zip"
   source_file = "${path.module}/src/lambda.py"
