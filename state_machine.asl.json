@@ -47,7 +47,22 @@
                     "JitterStrategy": "FULL"
                 }
             ],
-            "End": true
+            "Next": "macie_scan_completed"
+        },
+        "macie_scan_completed": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "End": true,
+                    "Condition": "{% $job_status = \"COMPLETE\" %}"
+                }
+            ],
+            "Default": "Wait 60 Seconds"
+        },
+        "Wait 60 Seconds": {
+            "Type": "Wait",
+            "Seconds": 60,
+            "Next": "macie_status"
         }
     },
     "QueryLanguage": "JSONata"
