@@ -92,7 +92,10 @@ resource "aws_lambda_function" "macie_xfer_clean" {
     aws_cloudwatch_log_group.macie_xfer_clean
   ]
   environment {
-    variables = {}
+    variables = {
+      SCAN_BUCKET  = aws_s3_bucket.scan.bucket
+      CLEAN_BUCKET = aws_s3_bucket.clean.bucket
+    }
   }
   logging_config {
     log_format = "JSON"
@@ -112,7 +115,10 @@ resource "aws_lambda_function" "macie_xfer_sensitive" {
     aws_cloudwatch_log_group.macie_xfer_sensitive
   ]
   environment {
-    variables = {}
+    variables = {
+      SCAN_BUCKET      = aws_s3_bucket.scan.bucket
+      SENSITIVE_BUCKET = aws_s3_bucket.sensitive.bucket
+    }
   }
   logging_config {
     log_format = "JSON"

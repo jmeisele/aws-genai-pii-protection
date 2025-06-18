@@ -101,5 +101,7 @@ def lambda_handler(event: dict, context: dict) -> dict:
         raise
     
     return {
+        "scan_bucket": scan_bucket,
+        "s3_object_key": s3_object_key,
         "macie_job_id": response['jobId']
     }
