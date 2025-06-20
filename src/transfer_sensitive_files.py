@@ -44,13 +44,6 @@ def lambda_handler(event: dict, context: dict) -> dict:
                 ]
             }
         )
-    except ClientError as e:
-        logger.error(e)
-        return {
-            "statusCode": 400,
-            "headers": {"Content-Type": "application/json"},
-            "body": json.dumps(e),
-        }
     except Exception as e:
         logger.exception(e)
         raise
