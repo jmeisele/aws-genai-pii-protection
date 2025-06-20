@@ -56,7 +56,9 @@ data "aws_iam_policy_document" "lambda_macie" {
     ]
     resources = [
       aws_s3_bucket.raw.arn,
-      aws_s3_bucket.scan.arn
+      aws_s3_bucket.scan.arn,
+      aws_s3_bucket.sensitive.arn,
+      aws_s3_bucket.clean.arn
     ]
   }
   statement {
@@ -75,7 +77,9 @@ data "aws_iam_policy_document" "lambda_macie" {
     ]
     resources = [
       "${aws_s3_bucket.raw.arn}/*",
-      "${aws_s3_bucket.scan.arn}/*"
+      "${aws_s3_bucket.scan.arn}/*",
+      "${aws_s3_bucket.sensitive.arn}/*",
+      "${aws_s3_bucket.clean.arn}/*"
     ]
   }
 }
